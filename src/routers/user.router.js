@@ -26,19 +26,17 @@ const verificationURL = "https://frdm-user.adaptable.app/verification/";
 // const verificationURL = "http://localhost:3000/verification/";
 
 router.all("/", (req, res, next) => {
-  // res.json({ message: "return from user router" });
-
   next();
 });
 
 // Get user profile router
 router.get("/", userAuthorization, async (req, res) => {
+
   // this data is coming from database
   const _id = req.userId;
-
   const userProf = await getUserById(_id);
-
   const { name, email } = userProf;
+
   res.json({
     user: {
       _id,
@@ -51,9 +49,11 @@ router.get("/", userAuthorization, async (req, res) => {
 // verify user after user has signed up
 router.patch("/verify", async (req, res) => {
   try {
+
     // this data coming from database
     const { _id, email } = req.body;
     console.log(_id, email);
+
     // update our user database
     const result = await verifyUser(_id, email);
 
@@ -81,9 +81,9 @@ router.post("/", newUserValidation, async (req, res) => {
   const { name, company, address, phone, email, password } = req.body;
 
   try {
+
     // hash password
     const hashedPass = await hashPassword(password);
-
     const newUserObj = {
       name,
       company,
@@ -94,7 +94,7 @@ router.post("/", newUserValidation, async (req, res) => {
     };
     const result = await insertUser(newUserObj);
     console.log(result);
-
+    
     await emailProcessor({
       email,
       type: "new-user-confirmation-required",

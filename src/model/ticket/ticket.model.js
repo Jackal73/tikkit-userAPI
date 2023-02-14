@@ -1,21 +1,6 @@
-const { TicketLRSchema } = require("../ticketLR/ticketLR.schema");
 const { TicketSchema } = require("./ticket.schema");
 
 const insertTicket = (ticketObj) => {
-  return new Promise((resolve, reject) => {
-    try {
-      TicketSchema(ticketObj)
-        .save()
-        .then((data) => resolve(data))
-        .catch((error) => reject(error));
-    } catch (error) {
-      reject(error);
-    }
-    console.log("score!!", ticketObj);
-  });
-};
-
-const insertTicketLR = (ticketObj) => {
   return new Promise((resolve, reject) => {
     try {
       TicketSchema(ticketObj)
@@ -35,7 +20,6 @@ const getTickets = (clientId) => {
     try {
       TicketSchema.find({
         clientId,
-        // clientId: "636a914bb13dbb77bf58c471",
       })
         .then((data) => resolve(data))
         .catch((error) => reject(error));
@@ -50,19 +34,6 @@ const getTickets1 = () => {
   return new Promise((resolve, reject) => {
     try {
       TicketSchema.find()
-        .then((data) => resolve(data))
-        .catch((error) => reject(error));
-    } catch (error) {
-      reject(error);
-    }
-  });
-};
-
-//- get All letters
-const getTicketsLR = () => {
-  return new Promise((resolve, reject) => {
-    try {
-      TicketLRSchema.find()
         .then((data) => resolve(data))
         .catch((error) => reject(error));
     } catch (error) {
@@ -164,9 +135,7 @@ const updateClientReply = (
             message: message,
           },
         }
-        // { new: true }
       )
-
         .then((data) => resolve(data))
         .catch((error) => reject(error));
     } catch (error) {
@@ -187,14 +156,10 @@ const deleteTicket = ({ _id }) => {
   });
 };
 
-// GET ALL TICKETS
-
 module.exports = {
   insertTicket,
-  insertTicketLR,
   getTickets,
   getTickets1,
-  getTicketsLR,
   getTicketById,
   getTicketById1,
   updateClientReply,

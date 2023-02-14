@@ -8,7 +8,7 @@ const corsOptions = {
     "http://localhost:3000",
     "https://frdm-user.adaptable.app",
     "https://tikkit-admin.adaptable.app",
-    // "https://localhost:3001",
+    "https://localhost:3001",
     "https://localhost:3002",
   ],
   methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
