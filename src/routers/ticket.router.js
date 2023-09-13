@@ -10,7 +10,10 @@ const {
   deleteTicket,
 } = require("../model/ticket/ticket.model");
 const { userAuthorization } = require("../middlewares/authorization.middleware");
+const { insertTicketLR, getTicketsLR } = require("../model/ticketLR/ticketLR.model");
+const { createNewTicketValidation, replyTicketMessageValidation } = require("../middlewares/formValidation.middleware");
 const { TicketSchema } = require("../model/ticket/ticket.schema");
+const { TicketLRSchema } = require("../model/ticketLR/ticketLR.schema");
 
 router.all("/", (req, res, next) => {
   next();
@@ -103,6 +106,96 @@ router.post("/", userAuthorization, async (req, res) => {
   }
 });
 
+// - Create new letter report
+router.post("/", userAuthorization, async (req, res) => {
+  try {
+    const {
+      fileNo,
+      closeDate,
+      fundDate,
+      dealType,
+      // closerOne,
+      // selectedCloserOption,
+      // commishClOne,
+      // closerTwo,
+      // commishClTwo,
+      // mobCloser,
+      // mobFee,
+      // overage,
+      // processorOne,
+      // commishPrOne,
+      // processorTwo,
+      // commishPrTwo,
+      clientRefOne,
+      // clientRefTwo,
+      // realAgentOne,
+      // realAgentTwo,
+      // lnOfficer,
+      salesRepOne,
+      salesTypeOne,
+      // salesRepTwo,
+      // salesTypeTwo,
+      // discount,
+      // discountApproval,
+      freedomCheck,
+      message,
+    } = req.body;
+    const userId = req.userId;
+
+    const ticketObj = {
+      // adminId: adminId,
+      clientId: userId,
+      fileNo,
+      closeDate: new Date(closeDate),
+      fundDate: new Date(fundDate),
+      dealType,
+      // closerOne,
+      // selectedCloserOption,
+      // commishClOne,
+      // closerTwo,
+      // commishClTwo,
+      // mobCloser,
+      // mobFee,
+      // overage,
+      // processorOne,
+      // commishPrOne,
+      // processorTwo,
+      // commishPrTwo,
+      clientRefOne,
+      // clientRefTwo,
+      // realAgentOne,
+      // realAgentTwo,
+      // lnOfficer,
+      salesRepOne,
+      salesTypeOne,
+      // salesRepTwo,
+      // salesTypeTwo,
+      // discount,
+      // discountApproval,
+      freedomCheck,
+      message,
+    };
+
+    const result = await insertTicket(ticketObj);
+
+    if (result._id) {
+      return res.json({
+        status: "success",
+        message: "The new report has been created",
+      });
+    }
+    res.json({
+      status: "error",
+      message: "Unable to create a report, please try again later",
+    });
+  } catch (error) {
+    res.json({
+      status: "error",
+      message: error.message,
+    });
+  }
+});
+
 // - get all tickets for a specific user
 router.get("/", userAuthorization, async (req, res) => {
   try {
@@ -128,6 +221,25 @@ router.all("/1", async (req, res) => {
   try {
     const userId = req.userId;
     const result = await getTickets1();
+
+    return res.json({
+      status: "success",
+      result,
+    });
+  } catch (error) {
+    res.json({
+      status: "error",
+      message: error.message,
+    });
+  }
+});
+
+// - get ALL letters
+router.all("/1", async (req, res) => {
+  try {
+    const userId = req.userId;
+
+    const result = await getTicketsLR();
 
     return res.json({
       status: "success",
