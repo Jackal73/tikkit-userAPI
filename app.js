@@ -6,11 +6,12 @@ const cors = require("cors");
 const corsOptions = {
   origin: [
     "http://localhost:3000",
+    "http://localhost:3001",
+    "http://localhost:3002",
     "https://frdm-user.adaptable.app",
     "https://tikkit-admin.adaptable.app",
     "https://tikkit-admin-back.adaptable.app",
-    "https://localhost:3001",
-    "https://localhost:3002",
+    "https://tikkit-userapi-old.onrender.com",
   ],
   methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
   credentials: true, // access-control-allow-credentials:true
