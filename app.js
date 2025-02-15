@@ -12,6 +12,7 @@ const corsOptions = {
     "https://tikkit-admin.adaptable.app",
     "https://tikkit-admin-back.adaptable.app",
     "https://tikkit-userapi-old.onrender.com",
+    "https://tikkit-userapi.onrender.com",
   ],
   methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
   credentials: true, // access-control-allow-credentials:true
