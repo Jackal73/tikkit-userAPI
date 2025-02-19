@@ -10,7 +10,11 @@ const {
   storeUserRefreshJWT,
   verifyUser,
 } = require("../model/user/user.model");
-const { setPasswordResetPin, getPinByEmailPin, deletePin } = require("../model/resetPin/pin.model");
+const {
+  setPasswordResetPin,
+  getPinByEmailPin,
+  deletePin,
+} = require("../model/resetPin/pin.model");
 const { emailProcessor } = require("../helpers/email.helper");
 const {
   resetPassReqValidation,
@@ -20,10 +24,13 @@ const {
 const { deleteJWT } = require("../helpers/redis.helper");
 const { hashPassword, comparePassword } = require("../helpers/bcrypt.helper");
 const { createAccessJWT, createRefreshJWT } = require("../helpers/jwt.helper");
-const { userAuthorization } = require("../middlewares/authorization.middleware");
+const {
+  userAuthorization,
+} = require("../middlewares/authorization.middleware");
 
-const verificationURL = "https://frdm-user.adaptable.app/verification/";
+// const verificationURL = "https://frdm-user.adaptable.app/verification/";
 // const verificationURL = "http://localhost:3000/verification/";
+const verificationURL = "https://tikket-user.onrender.com/verification/";
 
 router.all("/", (req, res, next) => {
   next();
@@ -31,7 +38,6 @@ router.all("/", (req, res, next) => {
 
 // Get user profile router
 router.get("/", userAuthorization, async (req, res) => {
-
   // this data is coming from database
   const _id = req.userId;
   const userProf = await getUserById(_id);
@@ -49,7 +55,6 @@ router.get("/", userAuthorization, async (req, res) => {
 // verify user after user has signed up
 router.patch("/verify", async (req, res) => {
   try {
-
     // this data coming from database
     const { _id, email } = req.body;
     console.log(_id, email);
@@ -81,7 +86,6 @@ router.post("/", newUserValidation, async (req, res) => {
   const { name, company, address, phone, email, password } = req.body;
 
   try {
-
     // hash password
     const hashedPass = await hashPassword(password);
     const newUserObj = {
@@ -94,7 +98,7 @@ router.post("/", newUserValidation, async (req, res) => {
     };
     const result = await insertUser(newUserObj);
     console.log(result);
-    
+
     await emailProcessor({
       email,
       type: "new-user-confirmation-required",
@@ -106,7 +110,8 @@ router.post("/", newUserValidation, async (req, res) => {
   } catch (error) {
     console.log(error);
 
-    let message = "Unable to create new user at this time. Please try again or contact software support.";
+    let message =
+      "Unable to create new user at this time. Please try again or contact software support.";
     if (error.message.includes("duplicate key error collection")) {
       message = "This email already has an account.";
     }
@@ -137,7 +142,8 @@ router.post("/login", async (req, res) => {
 
   const passFromDb = user && user._id ? user.password : null;
 
-  if (!passFromDb) return res.json({ status: "error", message: "Invalid Email or Password" });
+  if (!passFromDb)
+    return res.json({ status: "error", message: "Invalid Email or Password" });
 
   const result = await comparePassword(password, passFromDb);
 
@@ -171,13 +177,15 @@ router.post("/reset-password", resetPassReqValidation, async (req, res) => {
 
     return res.json({
       status: "success",
-      message: "If the email exists in our database, the password reset PIN will be sent shortly.",
+      message:
+        "If the email exists in our database, the password reset PIN will be sent shortly.",
     });
   }
 
   res.json({
     status: "error",
-    message: "If the email exists in our database, the password reset PIN will be sent shortly.",
+    message:
+      "If the email exists in our database, the password reset PIN will be sent shortly.",
   });
 });
 
