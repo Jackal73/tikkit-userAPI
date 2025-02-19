@@ -99,7 +99,7 @@ router.post("/", newUserValidation, async (req, res) => {
     const result = await insertUser(newUserObj);
     console.log(result);
 
-    await emailProcessor({
+    emailProcessor({
       email,
       type: "new-user-confirmation-required",
       verificationLink: verificationURL + result._id + "/" + email,
