@@ -30,7 +30,8 @@ const {
 
 // const verificationURL = "https://frdm-user.adaptable.app/verification/";
 // const verificationURL = "http://localhost:3000/verification/";
-const verificationURL = "https://tikket-user.onrender.com/verification/";
+const verificationURL =
+  "https://tikkit-admin-frontend.onrender.com/verification/";
 
 router.all("/", (req, res, next) => {
   next();
